@@ -1,11 +1,21 @@
+# Работа с изображениями в Python.
+# Коды фильтров: 0 - оттенки серого, 1 - сепия, 2 - негатив, 3 - шум, 4 - яркость, 5 - черно-белое.
+# В результате работы на диске будет сохранен файл output.jpg.
+# На вход подается файл input.jpg.
+
 import random
 from PIL import Image, ImageDraw
-
+# вводим режим обработки изображения (фильтр)
 mode = int(input('mode[shades of gray=0, sepia=1, negative=2, noise=3, brightness=4, black and white=5]: '))
+# открываем изображение
 image = Image.open("input.jpg")
+# получаем объект для рисования
 draw = ImageDraw.Draw(image)
+# ширина картинки
 width = image.size[0]
+# высота картинки
 height = image.size[1]
+# загружаем массив пикселей
 pix = image.load()
 if mode == 0:
     for i in range(width):
@@ -13,7 +23,7 @@ if mode == 0:
             a = pix[i, j][0]
             b = pix[i, j][1]
             c = pix[i, j][2]
-            S = (a + b + c) // 3
+            S = (a + b + c) // 3  # целочисленное деление
             draw.point((i, j), (S, S, S))
 if mode == 1:
     depth = int(input('depth: '))
@@ -94,5 +104,6 @@ if mode == 5:
             else:
                 a, b, c = 0, 0, 0
             draw.point((i, j), (a, b, c))
+# сохраняем результирующее изображение
 image.save("output.jpg", "JPEG")
 del draw
